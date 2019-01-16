@@ -304,7 +304,8 @@ if(USE_ASAN)
   list(APPEND mxnet_LINKER_LIBS asan)
 endif()
 
-list(APPEND mxnet_LINKER_LIBS ${mshadow_LINKER_LIBS})
+#Dirty hack
+#list(APPEND mxnet_LINKER_LIBS ${mshadow_LINKER_LIBS})
 
 foreach(var ${C_CXX_INCLUDE_DIRECTORIES})
     include_directories(${var})
