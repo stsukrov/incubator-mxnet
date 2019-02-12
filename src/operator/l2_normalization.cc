@@ -80,9 +80,11 @@ class L2NormalizationOpCPU : public L2NormalizationOp<cpu, DType> {
       Shape<2> norm_shape = Shape2(dshape[0], dshape[2]);
       Tensor<cpu, 2, DType> norm = out_data[l2_normalization::kNorm]
         .get_with_shape<cpu, 2, DType>(norm_shape, s);
+      const int dshape0 = static_cast<int>(dshape[0]);
+      const int dshape2 = static_cast<int>(dshape[2]);
 #pragma omp parallel for num_threads(omp_threads) collapse(2)
-      for (int shape0 = 0; shape0 < static_cast<int>(dshape[0]); shape0++) {
-        for (int shape2 = 0; shape2 < static_cast<int>(dshape[2]); shape2++) {
+      for (int shape0 = 0; shape0 < dshape0; shape0++) {
+        for (int shape2 = 0; shape2 < dshape2; shape2++) {
           norm[shape0][shape2] = DType(this->param_.eps);
           for (int shape1 = 0; shape1 < static_cast<int>(dshape[1]); shape1++) {
             norm[shape0][shape2] += data[shape0][shape1][shape2] * data[shape0][shape1][shape2];
@@ -104,9 +106,11 @@ class L2NormalizationOpCPU : public L2NormalizationOp<cpu, DType> {
       Shape<2> norm_shape = Shape2(dshape[0], dshape[1]);
       Tensor<cpu, 2, DType> norm = out_data[l2_normalization::kNorm]
         .get_with_shape<cpu, 2, DType>(norm_shape, s);
+      const int dshape0 = static_cast<int>(dshape[0]);
+      const int dshape1 = static_cast<int>(dshape[1]);
 #pragma omp parallel for num_threads(omp_threads) collapse(2)
-      for (int shape0 = 0; shape0 < static_cast<int>(dshape[0]); shape0++) {
-        for (int shape1 = 0; shape1 < static_cast<int>(dshape[1]); shape1++) {
+      for (int shape0 = 0; shape0 < dshape0; shape0++) {
+        for (int shape1 = 0; shape1 < dshape1; shape1++) {
           norm[shape0][shape1] = DType(this->param_.eps);
           for (int shape2 = 0; shape2 < static_cast<int>(dshape[2]); shape2++) {
             norm[shape0][shape1] += data[shape0][shape1][shape2] * data[shape0][shape1][shape2];
